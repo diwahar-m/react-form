@@ -3,6 +3,8 @@
 // import Home from "./pages/Home";
 // import Header from "./components/Header";
 import { useForm } from "react-hook-form";
+import * as motion from "motion/react-client";
+import { useState } from "react";
 
 export function Input({ props }) {
   const { label, register, options, errors, name, watch } = props;
@@ -15,7 +17,6 @@ export function Input({ props }) {
           <input
             onBlurCapture={(e) => {
               if (!watch(name)?.length) {
-                console.log(e.target.st);
                 e.target.style.borderColor = "red";
               } else {
                 e.target.style.borderColor = "black";
@@ -23,8 +24,9 @@ export function Input({ props }) {
             }}
             list={name}
             className="border-1 p-1 rounded"
+            {...register(name)}
           />
-          <datalist id={name} className="border-1 " {...register(name)}>
+          <datalist id={name} className="border-1 ">
             {options.map((opt) => (
               <option key={opt} value={opt}>
                 {opt}
@@ -56,14 +58,14 @@ export function Input({ props }) {
 }
 
 function App() {
+  const [x, setX] = useState("0");
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-  // console.log(watch("first_name"));
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => alert(JSON.stringify(data));
   const inputs = [
     { label: "First Name", name: "first_name" },
     { label: "Last Name", name: "last_name" },
@@ -81,49 +83,44 @@ function App() {
     },
   ];
   return (
-    // <div className="w-[100vw] h-[100vh]">
-    //   <Header />
-    //   <Router>
-    //     <Routes>
-    //       <Route path="/" Component={Home} />
-    //       <Route path="/about" Component={About} />
-    //     </Routes>
-    //   </Router>
-    // </div>
-    <div className=" w-screen h-full  flex items-center justify-center">
-      <form className="flex flex-col gap-1" onSubmit={handleSubmit(onSubmit)}>
-        {/* <>
-          <label>First Name</label>
-          <input className="border-1" {...register("firstName")} />
-        </>
-        <>
-          <label>Last Name</label>
-          <input className="border-1" {...register("lastName")} />
-        </>
-        <>
-          <label>Phone number</label>
-          <input
-            type="tel"
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-            className="border-1"
-            {...register("phoneNumber")}
-          />
-        </>
-        <select {...register("gender")}>
-          <option value="female">female</option>
-          <option value="male">male</option>
-          <option value="other">other</option>
-        </select> */}
+    <div className="w-screen h-full  ">
+      {/* main container */}
+      <div className="m-auto w-[60%] h-[60%] border-1 border-red-700 flex rounded relative ">
+        <motion.div className=" w-[50%] h-full flex items-center justify-center p-4">
+          <h1> Login </h1>
+        </motion.div>
 
-        {inputs?.map((inp) => (
-          <Input
-            key={inp?.name}
-            props={{ ...inp, register, errors, required: true, watch }}
-          />
-        ))}
-        {/* <input type="submit" /> */}
-        <button type="submit">Submit</button>
-      </form>
+        <motion.div
+          animate={{
+            x,
+          }}
+          transition={{ type: "spring" }}
+          className="absolute w-[50%] min-h-full bg-red-700 rounded flex items-center justify-center "
+        >
+          <button
+            onClick={() => {
+              if (x === 410) setX(0);
+              else setX(410);
+            }}
+          >
+            {x ? "Sign Up" : "Login"}
+          </button>
+        </motion.div>
+        <div className=" w-[50%] h-full flex items-center justify-center p-4  ">
+          <form
+            className="flex flex-col gap-1"
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            {inputs?.map((inp) => (
+              <Input
+                key={inp?.name}
+                props={{ ...inp, register, errors, required: true, watch }}
+              />
+            ))}
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
