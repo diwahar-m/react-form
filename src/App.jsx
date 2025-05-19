@@ -3,7 +3,7 @@
 // import Home from "./pages/Home";
 // import Header from "./components/Header";
 import { useForm } from "react-hook-form";
-import * as motion from "motion/react-client";
+import * as motion from "motion";
 import { useState } from "react";
 
 export function Input({ props }) {
@@ -106,7 +106,7 @@ function App() {
             {x ? "Sign Up" : "Login"}
           </button>
         </motion.div>
-        <div className=" w-[50%] h-full flex items-center justify-center p-4  ">
+        <div className=" max-w-[50%] h-full flex items-center justify-center p-4 overflow-y-auto  ">
           <form
             className="flex flex-col gap-1"
             onSubmit={handleSubmit(onSubmit)}
