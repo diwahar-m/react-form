@@ -21,12 +21,9 @@ beforeEach(()=> {
 describe("test group", ()=> {
     beforeEach(()=>console.log("inner before each"));
     test("testing setups", ()=> {
-       
         expect(2+2).toBe(4);
-        
     })
     afterEach(()=> console.log("inner after each"));
-
 })
 
 
